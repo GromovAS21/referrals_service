@@ -42,10 +42,3 @@ class Referral(models.Model):
         verbose_name = "Реферальный код"
         verbose_name_plural = "Реферальные коды"
         ordering = ("id",)
-
-    def clean(self):
-        """Проверка на имеющиеся активный реферальный код у пользователя"""
-
-        super().clean()
-        if Referral.objects.filter(owner=self.owner, active=True).exists():
-            raise ValidationError("Вы уже имеете активный реферальный код, для создания нового кода необходимо удалить имеющийся код.")
