@@ -1,5 +1,6 @@
 from rest_framework import generics
 from referral_cods.models import Referral
+from referral_cods.permissions import IsOwner
 from referral_cods.serializers import ReferralCodeSerializer
 
 
@@ -17,3 +18,5 @@ class DeleteReferralCodeView(generics.DestroyAPIView):
     """Удаление реферального кода"""
 
     queryset = Referral.objects.all()
+    permission_classes =(IsOwner,)
+
