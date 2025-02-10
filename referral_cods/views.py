@@ -10,6 +10,9 @@ class CreateReferralCodeView(generics.CreateAPIView):
     serializer_class = CreateReferralCodeSerializer
     queryset = Referral.objects.all()
 
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
 
 class DeleteReferralCodeView(generics.DestroyAPIView):
     """Удаление реферального кода"""
