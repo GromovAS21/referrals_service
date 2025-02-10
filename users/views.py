@@ -1,8 +1,16 @@
 from rest_framework import generics
+from rest_framework.permissions import AllowAny
+
+from users.models import User
+from users.serializers import CreateSerializer
 
 
 class UserCreateView(generics.CreateAPIView):
     """Создание пользователя который прошел по реферальной ссылке"""
+
+    serializer_class = CreateSerializer
+    queryset = User.objects.all()
+    permission_classes = (AllowAny,)
 
     def perform_create(self, serializer):
         user = serializer.save()
