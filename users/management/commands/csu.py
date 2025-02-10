@@ -1,3 +1,6 @@
+import os
+
+import django
 from django.core.management import BaseCommand
 from users.models import User
 
@@ -8,12 +11,14 @@ class Command(BaseCommand):
 
         try:
             user = User.objects.create(
-                email="admin@test.ru",
+                email=os.getenv("ADMIN_USERNAME"),
                 is_staff=True,
                 is_superuser=True,
             )
-            user.set_password("Qwerty")
+            user.set_password(os.getenv("ADMIN_PASSWORD"))
             user.save()
+        except django.db.utils.IntegrityError:
+            self.stdout.write(self.style.ERROR("SUPERUSER ALREADY CREATED"))
         except Exception:
             self.stdout.write(self.style.ERROR("SUPERUSER CREATE FAILED"))
         else:
