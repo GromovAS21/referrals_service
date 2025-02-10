@@ -13,6 +13,10 @@ class Referral(models.Model):
     validity_period = models.DateField(
         verbose_name="Срок действия реферального кода",
     )
+    active = models.BooleanField(
+        default=True,
+        verbose_name="Активность реферального кода",
+    )
     owner = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
