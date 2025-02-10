@@ -2,6 +2,7 @@ from django.core.validators import RegexValidator
 from django.db import models
 from rest_framework.exceptions import ValidationError
 
+from referral_cods.validators import ValidateDateInPast
 from users.models import User
 
 
@@ -12,13 +13,14 @@ class Referral(models.Model):
         max_length=6,
         verbose_name="Реферальный код",
         validators=[
-            RegexValidator(r"^\d{6}$", "Код должен состоять из цифр"),
+            RegexValidator(r"^\d{6}$", "Код должен состоять из 6 цифр"),
         ]
     )
     validity_period = models.DateField(
         verbose_name="Срок действия реферального кода",
         validators=[
             RegexValidator(r"^\d{4}-\d{2}-\d{2}$", "Дата должна быть в формате ГГГГ-ММ-ДД"),
+            ValidateDateInPast()
         ]
     )
     active = models.BooleanField(

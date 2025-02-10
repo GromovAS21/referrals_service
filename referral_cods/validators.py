@@ -1,8 +1,10 @@
-from datetime import datetime
+from datetime import date
 from rest_framework.exceptions import ValidationError
 
-def validate_date_in_past(value: datetime.date) -> None:
+class ValidateDateInPast:
     """Проверка на дату в прошлом"""
 
-    if value < datetime.now().date():
-        raise ValidationError("Дата не может быть в прошлом")
+    def __call__(self, value):
+
+        if value < date.today():
+            raise ValidationError("Дата не может быть в прошлом")
