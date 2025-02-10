@@ -1,7 +1,7 @@
 from django.apps import AppConfig
 
 
-class ReferralConfig(AppConfig):
+class ReferralsConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "referral"
+    name = "referrals"
     verbose_name = "Реферальные коды"
