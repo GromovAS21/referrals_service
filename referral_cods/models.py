@@ -1,7 +1,7 @@
 from django.core.validators import RegexValidator
 from django.db import models
 
-from referrals.validators import validate_date_in_past
+from referral_cods.validators import validate_date_in_past
 from users.models import User
 
 

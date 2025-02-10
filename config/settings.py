@@ -22,7 +22,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
 
-    "referrals",
+    "referral_cods",
     "users"
 ]
 
