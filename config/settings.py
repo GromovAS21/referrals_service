@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -21,6 +22,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "rest_framework_simplejwt",
 
     "referral_cods",
     "users"
@@ -98,8 +100,11 @@ AUTH_USER_MODEL = "users.User"
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
-    ]
+        'rest_framework.permissions.IsAuthenticated'
+    ],
+        "DEFAULT_AUTHENTICATION_CLASSES": [
+    "rest_framework_simplejwt.authentication.JWTAuthentication"
+],
 }
 
 LOGGING = {
@@ -114,4 +119,9 @@ LOGGING = {
         "handlers": ["console"],
         "level": "WARNING",
     },
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=10000),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=15),
 }
