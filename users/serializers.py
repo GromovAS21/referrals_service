@@ -3,7 +3,7 @@ from rest_framework import serializers
 from users.models import User
 
 
-class CreateSerializer(serializers.ModelSerializer):
+class CreateUserSerializer(serializers.ModelSerializer):
     """Сериализатор для создания пользователя"""
 
     class Meta:
