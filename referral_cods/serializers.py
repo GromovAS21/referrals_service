@@ -1,13 +1,14 @@
 from rest_framework import serializers
 
 from referral_cods.models import Referral
+from users.serializers import UserSerializer
 
 
-class CreateReferralCodeSerializer(serializers.ModelSerializer):
+class ReferralCodeSerializer(serializers.ModelSerializer):
     """Сериализатор для создания реферального кода"""
+
+    owner = UserSerializer(read_only=True)
 
     class Meta:
         model = Referral
-        fields = ("code", "validity_period",)
-
-
+        fields = ("id", "code", "validity_period", "active", "owner")

@@ -1,13 +1,12 @@
 from rest_framework import generics
-
 from referral_cods.models import Referral
-from referral_cods.serializers import CreateReferralCodeSerializer
+from referral_cods.serializers import ReferralCodeSerializer
 
 
 class CreateReferralCodeView(generics.CreateAPIView):
     """Создание реферального кода"""
 
-    serializer_class = CreateReferralCodeSerializer
+    serializer_class = ReferralCodeSerializer
     queryset = Referral.objects.all()
 
     def perform_create(self, serializer):
