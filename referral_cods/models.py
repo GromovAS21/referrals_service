@@ -1,6 +1,5 @@
 from django.core.validators import RegexValidator
 from django.db import models
-from rest_framework.exceptions import ValidationError
 
 from referral_cods.validators import ValidateDateInPast
 from users.models import User
