@@ -2,13 +2,13 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from referral_cods.models import Referral
-from users.serializers import UserSerializer
+from users.serializers import UserDetailSerializer
 
 
 class ReferralCodeSerializer(serializers.ModelSerializer):
     """Сериализатор для создания реферального кода"""
 
-    owner = UserSerializer(read_only=True)
+    owner = UserDetailSerializer(read_only=True)
 
     class Meta:
         model = Referral
