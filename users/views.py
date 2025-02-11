@@ -32,3 +32,19 @@ class UserCreateView(generics.CreateAPIView):
             user.save(update_fields=["password", "referer_user"])
 
 
+class AllReferralUsersView(APIView):
+    """Получение всех приглашенных пользователей у текущего пользователя"""
+
+    def get(self, request):
+
+        user = request.user
+        referral_users = user.referral_users.all()
+        if referral_users:
+            users_list = list(referral_users.values("id", "email"))
+            return Response(users_list, status=HTTP_200_OK)
+        else:
+            return Response({"message": "Приглашенных пользователей нет"}, status=HTTP_200_OK)
+
+
+
+
