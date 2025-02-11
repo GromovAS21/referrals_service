@@ -1,11 +1,18 @@
-from datetime import date
+from datetime import date, datetime
 
 from django.core.exceptions import ValidationError
 
 
-class ValidateDateInPast:
+def validate_date_in_past(value):
     """Проверка на дату в прошлом"""
 
-    def __call__(self, value):
-        if value < date.today():
-            raise ValidationError("Дата не может быть в прошлом")
+    date_input = value
+
+    # Проверка являются ли тип данных date, или это строка вводимая в админ панели
+    if not isinstance(date_input, date):
+        date_input = datetime.strftime(value, "%Y-%m-%d").date()
+
+    if date_input < date.today():
+        raise ValidationError("Дата не может быть в прошлом")
+
+

@@ -1,7 +1,7 @@
 from django.core.validators import RegexValidator
 from django.db import models
 
-from referral_cods.validators import ValidateDateInPast
+from referral_cods.validators import validate_date_in_past
 from users.models import User
 
 
@@ -18,8 +18,7 @@ class Referral(models.Model):
     validity_period = models.DateField(
         verbose_name="Срок действия реферального кода",
         validators=[
-            RegexValidator(r"^\d{4}-\d{2}-\d{2}$", "Дата должна быть в формате ГГГГ-ММ-ДД"),
-            ValidateDateInPast()
+            validate_date_in_past
         ]
     )
     active = models.BooleanField(
