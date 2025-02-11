@@ -139,20 +139,11 @@ CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
-if DEBUG:
-    CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
-    CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/0"
-else:
-    CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
-    CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")
-
-# CELERY_BEAT_SCHEDULE = {
-#     "check_birthday_users": {
-#         "task": "users.tasks.tasks.check_birthday_users",
-#         "schedule": timedelta(days=1),
-#     },
-#     "sand_advertising_message": {
-#         "task": "users.tasks.tasks.sand_advertising_message",
-#         "schedule": timedelta(days=7),
-#     },
-# }
+CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
+CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")
+CELERY_BEAT_SCHEDULE = {
+    "check_expiration_date_referral_code": {
+        "task": "referral_cods.tasks.check_expiration_date_referral_code",
+        "schedule": timedelta(days=1),
+    },
+}
