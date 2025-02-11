@@ -1,5 +1,7 @@
 from __future__ import absolute_import
+
 import os
+
 from celery import Celery
 
 from config.settings import CELERY_BROKER_URL, CELERY_RESULT_BACKEND

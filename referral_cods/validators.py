@@ -14,5 +14,3 @@ def validate_date_in_past(value):
 
     if date_input < date.today():
         raise ValidationError("Дата не может быть в прошлом")
-
-

@@ -10,4 +10,3 @@ class ReferralAdmin(admin.ModelAdmin):
     list_display = ("id", "code", "validity_period", "owner")
     list_filter = ("active", )
     search_fields = ("code",)
-

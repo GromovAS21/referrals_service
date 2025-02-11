@@ -2,7 +2,9 @@ import os
 
 import django
 from django.core.management import BaseCommand
+
 from users.models import User
+
 
 class Command(BaseCommand):
     """Создание суперпользователя"""
@@ -23,4 +25,3 @@ class Command(BaseCommand):
             self.stdout.write(self.style.ERROR("SUPERUSER CREATE FAILED"))
         else:
             self.stdout.write(self.style.SUCCESS("SUPERUSER CREATE SUCCESS"))
-

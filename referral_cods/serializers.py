@@ -18,6 +18,6 @@ class ReferralCodeSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         owner = self.context['request'].user
         if Referral.objects.filter(owner=owner, active=True).exists():
-            raise ValidationError({"active": "Вы уже имеете активный реферальный код, для создания нового кода необходимо удалить имеющийся код."})
+            raise ValidationError({"active": "Вы уже имеете активный реферальный код, для создания нового кода "
+                                             "необходимо удалить имеющийся код."})
         return super().create(validated_data)
-

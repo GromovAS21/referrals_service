@@ -12,7 +12,6 @@ from referral_cods.serializers import ReferralCodeSerializer
 
 
 class CreateReferralCodeView(generics.CreateAPIView):
-
     serializer_class = ReferralCodeSerializer
     queryset = Referral.objects.all()
 
@@ -37,7 +36,6 @@ class CreateReferralCodeView(generics.CreateAPIView):
 
 
 class DeleteReferralCodeView(generics.DestroyAPIView):
-
     queryset = Referral.objects.all()
     permission_classes = (IsOwner,)
 

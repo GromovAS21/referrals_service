@@ -1,8 +1,8 @@
-import os
-
 import django
 from django.core.management import BaseCommand
+
 from users.models import User
+
 
 class Command(BaseCommand):
     """Создание пользователя"""
@@ -27,4 +27,3 @@ class Command(BaseCommand):
             self.stdout.write(self.style.ERROR("USERS CREATE FAILED"))
         else:
             self.stdout.write(self.style.SUCCESS("USERS CREATE SUCCESS"))
-
