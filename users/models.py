@@ -19,6 +19,11 @@ class User(AbstractUser):
             MinValueValidator(8, "Пароль должен содержать не менее 8 символов")
         ]
     )
+    referral_users = models.ManyToManyField(
+        "self",
+        verbose_name="Приглашенные пользователи",
+        blank=True,
+    )
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
