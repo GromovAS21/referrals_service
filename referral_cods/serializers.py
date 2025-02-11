@@ -13,6 +13,7 @@ class ReferralCodeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Referral
         fields = ("id", "code", "validity_period", "active", "owner")
+        read_only_fields = ("active", )
 
     def create(self, validated_data):
         owner = self.context['request'].user
