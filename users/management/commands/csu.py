@@ -13,7 +13,7 @@ class Command(BaseCommand):
 
         try:
             user = User.objects.create(
-                email=os.getenv("ADMIN_USERNAME"),
+                email=os.getenv("ADMIN_EMAIL"),
                 is_staff=True,
                 is_superuser=True,
             )
