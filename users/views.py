@@ -108,6 +108,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
 
 class CustomTokenRefreshView(TokenRefreshView):
+
     permission_classes = (AllowAny,)
 
     @swagger_auto_schema(

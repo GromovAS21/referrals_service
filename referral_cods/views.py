@@ -1,17 +1,17 @@
-from django.core.mail import send_mail
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from config.settings import EMAIL_HOST_USER
 from referral_cods.models import Referral
 from referral_cods.permissions import IsOwner
 from referral_cods.serializers import ReferralCodeSerializer
+from referral_cods.tasks import send_referral_code_email
 
 
 class CreateReferralCodeView(generics.CreateAPIView):
+
     serializer_class = ReferralCodeSerializer
     queryset = Referral.objects.all()
 
@@ -36,6 +36,7 @@ class CreateReferralCodeView(generics.CreateAPIView):
 
 
 class DeleteReferralCodeView(generics.DestroyAPIView):
+
     queryset = Referral.objects.all()
     permission_classes = (IsOwner,)
 
@@ -81,18 +82,19 @@ class SendEmailReferralCodeView(APIView):
         user = request.user
 
         try:
-            referral_cod = Referral.objects.get(owner=user, active=True)
+            # Проверка наличия активного реферального кода
+            referral_code = Referral.objects.get(owner=user, active=True)
         except Referral.DoesNotExist:
             return Response({"message": "Активный реферальный код отсутствует"})
 
         else:
+            # Создание словаря с данными реферального кода
+            referral_code_data = {
+                "code": referral_code.code,
+                "validity_period": referral_code.validity_period
+            }
+            # Получение email пользователя
+            email_user = user.email
             # Отправка реферального кода на email
-            send_mail(
-                subject="Реферальный код",
-                message=f"Твой реферальный код: {referral_cod.code}"
-                        f"Срок годности этого кода: {referral_cod.validity_period}",
-                from_email=EMAIL_HOST_USER,
-                recipient_list=[user.email]
-
-            )
+            send_referral_code_email.delay(referral_code_data, email_user)
             return Response({"message": "Сообщение отправлено на Ваш Email"})
