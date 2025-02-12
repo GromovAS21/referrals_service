@@ -38,6 +38,7 @@ API приложения реферального сервиса со следу
     - `python3 manage.py migrate`
     - `python3 manage.py csu`
     - `python3 manage.py cu`
+    - `python3 manage.py crc`
     - `redis-server`
     - `celery -A config worker --beat --scheduler django --loglevel=info `
     - `python3 manage.py runserver`

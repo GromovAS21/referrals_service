@@ -36,6 +36,7 @@ services:
                     python manage.py migrate &&
                     python manage.py csu &&
                     python manage.py cu &&
+                    python manage.py crc &&
                     python manage.py runserver 0.0.0.0:8000"
     depends_on:
       db:
