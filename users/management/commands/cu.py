@@ -9,8 +9,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         users = [
-            {"email": "user_1@test.ru", "password": "Qwerty1"},
-            {"email": "user_2@test.ru", "password": "Qwerty2"},
+            {"email": "user_1@test.ru", "password": "Qwerty1", "referer_user_id": 1},
+            {"email": "user_2@test.ru", "password": "Qwerty2", "referer_user_id": 1},
+            {"email": "user_3@test.ru", "password": "Qwerty3"},
         ]
 
         users_for_create = []
