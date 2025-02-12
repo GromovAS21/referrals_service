@@ -28,5 +28,3 @@ class UserDetailSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({"referral_code": "Такого реферального кода не существует"})
 
         return super().create(validated_data)
-
-

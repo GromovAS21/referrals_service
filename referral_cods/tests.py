@@ -12,7 +12,6 @@ class ReferralCodeTest(TestCase):
     """Тест для модели ReferralCode"""
 
     def setUp(self):
-
         self.client = APIClient()
         self.user = User.objects.create(email="test@test.ru")
         self.user_1 = User.objects.create(email="test1@test.ru", )
@@ -47,7 +46,7 @@ class ReferralCodeTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertTrue(ReferralCode.objects.filter(code="123456").exists())
 
-        data ={
+        data = {
             "code": "12345",
             "validity_period": "2025-01-01",
         }
@@ -94,4 +93,3 @@ class ReferralCodeTest(TestCase):
         response = self.client.post(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.json()["message"], "Сообщение отправлено на Ваш Email")
-

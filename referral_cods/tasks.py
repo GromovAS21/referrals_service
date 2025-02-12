@@ -21,6 +21,7 @@ def check_expiration_date_referral_code() -> None:
         code.active = False
         code.save(update_fields=["active"])
 
+
 @shared_task
 def send_referral_code_email(referral_code_data: dict, user_email: str) -> None:
     """Отправка реферального кода на email"""
@@ -31,10 +32,10 @@ def send_referral_code_email(referral_code_data: dict, user_email: str) -> None:
     user_email = user_email
 
     send_mail(
-            subject="Реферальный код",
-            message=f"Твой реферальный код: {referral_code}.\n"
-                    f"Код активен до: {formatted_date} года.",
-            from_email=EMAIL_HOST_USER,
-            recipient_list=[user_email]
+        subject="Реферальный код",
+        message=f"Твой реферальный код: {referral_code}.\n"
+                f"Код активен до: {formatted_date} года.",
+        from_email=EMAIL_HOST_USER,
+        recipient_list=[user_email]
 
-        )
+    )

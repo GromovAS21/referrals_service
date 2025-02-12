@@ -2,6 +2,7 @@ import requests
 
 from config.settings import HUNTER_API_KEY
 
+
 def verify_email(email: str) -> bool:
     """Проверка email на валидность через сайт Hunter.io"""
 

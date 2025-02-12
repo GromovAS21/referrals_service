@@ -11,7 +11,6 @@ class UserTest(TestCase):
     """Тест для модели User"""
 
     def setUp(self):
-
         self.client = APIClient()
         self.user = User.objects.create(
             email="test@test.ru",
@@ -82,6 +81,3 @@ class UserTest(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.json()), 2)
-
-
-
