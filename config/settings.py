@@ -150,3 +150,13 @@ CELERY_BEAT_SCHEDULE = {
 }
 
 HUNTER_API_KEY = os.getenv("HUNTER_API_KEY")
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': os.getenv("LOCATION"),
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}

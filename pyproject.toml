@@ -17,6 +17,7 @@ django-celery-beat = "^2.7.0"
 drf-yasg = "^1.21.8"
 requests = "^2.32.3"
 celery = "^5.4.0"
+django-redis = "^5.4.0"
 
 
 [tool.poetry.group.dev.dependencies]

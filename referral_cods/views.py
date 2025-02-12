@@ -1,3 +1,4 @@
+from django.core.cache import cache
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import generics
@@ -32,8 +33,12 @@ class CreateReferralCodeView(generics.CreateAPIView):
         return super().post(request, *args, **kwargs)
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
-
+        referral_code = serializer.save()
+        referral_code.owner=self.request.user
+        referral_code.save()
+        # Добавление реферального кода в хэш
+        cache.set(f"referral_code_{self.request.user.id}", referral_code.code, timeout=24*60*60)
+        cache.set(f"validity_period_{self.request.user.id}", referral_code.validity_period, timeout=24*60*60)
 
 class DeleteReferralCodeView(generics.DestroyAPIView):
 
@@ -80,21 +85,27 @@ class SendEmailReferralCodeView(APIView):
     def post(self, request):
 
         user = request.user
+        # Проверка хэша на наличии реферального кода
+        referral_code = cache.get(f"referral_code_{user.id}")
+        validity_period = cache.get(f"validity_period_{user.id}")
+        # Если нет в хэше
+        if not referral_code and validity_period:
 
-        try:
-            # Проверка наличия активного реферального кода
-            referral_code = ReferralCode.objects.get(owner=user, active=True)
-        except ReferralCode.DoesNotExist:
-            return Response({"message": "Активный реферальный код отсутствует"})
+            try:
+                # Проверка наличия активного реферального кода в БД
+                referral_code_obj = ReferralCode.objects.get(owner=user, active=True)
+                referral_code = referral_code_obj.code
+                validity_period = referral_code_obj.validity_period
+            except ReferralCode.DoesNotExist:
+                return Response({"message": "Активный реферальный код отсутствует"})
 
-        else:
-            # Создание словаря с данными реферального кода
-            referral_code_data = {
-                "code": referral_code.code,
-                "validity_period": referral_code.validity_period
-            }
-            # Получение email пользователя
-            email_user = user.email
-            # Отправка реферального кода на email
-            send_referral_code_email.delay(referral_code_data, email_user)
-            return Response({"message": "Сообщение отправлено на Ваш Email"})
+        # Создание словаря с данными реферального кода
+        referral_code_data = {
+            "code": referral_code,
+            "validity_period": validity_period
+        }
+        # Получение email пользователя
+        email_user = user.email
+        # Отправка реферального кода на email
+        send_referral_code_email.delay(referral_code_data, email_user)
+        return Response({"message": "Сообщение отправлено на Ваш Email"})
