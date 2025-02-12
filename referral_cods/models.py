@@ -5,7 +5,7 @@ from referral_cods.validators import validate_date_in_past
 from users.models import User
 
 
-class Referral(models.Model):
+class ReferralCode(models.Model):
     """Модель реферального кода"""
 
     code = models.CharField(

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from referral_cods.models import Referral
+from referral_cods.models import ReferralCode
 from users.models import User
 from users.services import verify_email
 
@@ -24,7 +24,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
 
         referral_code = validated_data.pop("referral_code")
         # Проверка на существующий реферальный код
-        if not Referral.objects.filter(code=referral_code, active=True).exists():
+        if not ReferralCode.objects.filter(code=referral_code, active=True).exists():
             raise serializers.ValidationError({"referral_code": "Такого реферального кода не существует"})
 
         return super().create(validated_data)

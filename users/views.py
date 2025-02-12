@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.views import (TokenObtainPairView,
                                             TokenRefreshView)
 
-from referral_cods.models import Referral
+from referral_cods.models import ReferralCode
 from users.models import User
 from users.seializers_swagger import UserResponseSerializer
 from users.serializers import UserDetailSerializer
@@ -44,7 +44,7 @@ class UserCreateView(generics.CreateAPIView):
             # Берем реферальный код, с помощью которого произведена регистрация
             referral_code = serializer.initial_data["referral_code"]
             # Находим пользователя, которому принадлежит реферальный код
-            referer_user = Referral.objects.get(code=referral_code).owner
+            referer_user = ReferralCode.objects.get(code=referral_code).owner
             # Добавляем к владельцу реферального кода нового зарегистрированного пользователя в качестве реферала
             user.referer_user = referer_user
 

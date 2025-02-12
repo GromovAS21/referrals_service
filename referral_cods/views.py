@@ -4,7 +4,7 @@ from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from referral_cods.models import Referral
+from referral_cods.models import ReferralCode
 from referral_cods.permissions import IsOwner
 from referral_cods.serializers import ReferralCodeSerializer
 from referral_cods.tasks import send_referral_code_email
@@ -13,7 +13,7 @@ from referral_cods.tasks import send_referral_code_email
 class CreateReferralCodeView(generics.CreateAPIView):
 
     serializer_class = ReferralCodeSerializer
-    queryset = Referral.objects.all()
+    queryset = ReferralCode.objects.all()
 
     @swagger_auto_schema(
         operation_description="Создание реферального кода авторизированным пользователем",
@@ -37,7 +37,7 @@ class CreateReferralCodeView(generics.CreateAPIView):
 
 class DeleteReferralCodeView(generics.DestroyAPIView):
 
-    queryset = Referral.objects.all()
+    queryset = ReferralCode.objects.all()
     permission_classes = (IsOwner,)
 
     @swagger_auto_schema(
@@ -83,8 +83,8 @@ class SendEmailReferralCodeView(APIView):
 
         try:
             # Проверка наличия активного реферального кода
-            referral_code = Referral.objects.get(owner=user, active=True)
-        except Referral.DoesNotExist:
+            referral_code = ReferralCode.objects.get(owner=user, active=True)
+        except ReferralCode.DoesNotExist:
             return Response({"message": "Активный реферальный код отсутствует"})
 
         else:

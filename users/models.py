@@ -1,5 +1,4 @@
 from django.contrib.auth.models import AbstractUser
-from django.core.validators import MinValueValidator
 from django.db import models
 
 
@@ -15,9 +14,6 @@ class User(AbstractUser):
     password = models.CharField(
         max_length=128,
         verbose_name="Пароль",
-        validators=[
-            MinValueValidator(8, "Пароль должен содержать не менее 8 символов")
-        ]
     )
     referer_user = models.ForeignKey(
         "self",
