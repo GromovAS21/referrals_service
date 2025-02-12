@@ -1,0 +1,66 @@
+services:
+  redis:
+    container_name: referral_service_redis
+    image: redis:latest
+    restart: on-failure
+    expose:
+      - "6379"
+    networks:
+      - referral_service
+
+  db:
+    container_name: referral_service_db
+    image: postgres:latest
+    restart: on-failure
+    expose:
+      - "5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "-c", "pg_isready -U $POSTGRES_USER",]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    env_file:
+      - .env
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    networks:
+      - referral_service
+
+  app:
+    container_name: referral_service_api
+    build: .
+    tty: true
+    ports:
+      - "8000:8000"
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    networks:
+      - referral_service
+
+  celery:
+    container_name: referral_service_celery
+    build: .
+    restart: on-failure
+    tty: true
+    command: celery -A config worker --beat --scheduler django --loglevel=info
+    depends_on:
+      - redis
+      - app
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    networks:
+      - referral_service
+
+volumes:
+  pg_data:
+
+networks:
+  referral_service:
