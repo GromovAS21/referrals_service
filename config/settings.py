@@ -148,3 +148,5 @@ CELERY_BEAT_SCHEDULE = {
         "schedule": timedelta(days=1),
     },
 }
+
+HUNTER_API_KEY = os.getenv("HUNTER_API_KEY")
