@@ -34,9 +34,7 @@ class CreateReferralCodeView(generics.CreateAPIView):
         return super().post(request, *args, **kwargs)
 
     def perform_create(self, serializer) -> None:
-        referral_code = serializer.save()
-        referral_code.owner=self.request.user
-        referral_code.save()
+        referral_code = serializer.save(owner=self.request.user)
         # Добавление реферального кода в хэш
         cache.set(f"referral_code_{self.request.user.id}", referral_code.code, timeout=24*60*60)
         cache.set(f"validity_period_{self.request.user.id}", referral_code.validity_period, timeout=24*60*60)
