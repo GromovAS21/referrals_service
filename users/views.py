@@ -33,10 +33,10 @@ class UserCreateView(generics.CreateAPIView):
             400: "Ошибка валидации",
         },
     )
-    def post(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs) -> Response:
         return super().post(request, *args, **kwargs)
 
-    def perform_create(self, serializer):
+    def perform_create(self, serializer) -> None:
         if serializer.is_valid():
             user = serializer.save()
             user.set_password(user.password)
@@ -66,7 +66,7 @@ class AllReferralUsersView(APIView):
             400: "Ошибка запроса",
         },
     )
-    def get(self, request):
+    def get(self, request) -> Response:
 
         user = request.user
         # Получаем всех пользователей, где текущий пользователь числится referer_user
@@ -103,7 +103,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
             400: "Неверные учетные данные"
         }
     )
-    def post(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs) -> Response:
         return super().post(request, *args, **kwargs)
 
 
@@ -129,5 +129,5 @@ class CustomTokenRefreshView(TokenRefreshView):
             400: "Неверный Refresh токен"
         }
     )
-    def post(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs) -> Response:
         return super().post(request, *args, **kwargs)

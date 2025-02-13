@@ -29,10 +29,10 @@ class CreateReferralCodeView(generics.CreateAPIView):
             400: "Ошибка валидации",
         },
     )
-    def post(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs) -> Response:
         return super().post(request, *args, **kwargs)
 
-    def perform_create(self, serializer):
+    def perform_create(self, serializer) -> None:
         referral_code = serializer.save()
         referral_code.owner=self.request.user
         referral_code.save()
@@ -65,7 +65,7 @@ class DeleteReferralCodeView(generics.DestroyAPIView):
             400: "Ошибка валидации",
         },
     )
-    def delete(self, request, *args, **kwargs):
+    def delete(self, request, *args, **kwargs) -> Response:
         return super().delete(request, *args, **kwargs)
 
 
@@ -82,7 +82,7 @@ class SendEmailReferralCodeView(APIView):
             400: "Ошибка валидации",
         },
     )
-    def post(self, request):
+    def post(self, request) -> Response:
 
         user = request.user
         # Проверка хэша на наличии реферального кода
