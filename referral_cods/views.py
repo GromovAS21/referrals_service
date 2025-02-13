@@ -8,6 +8,7 @@ from rest_framework.views import APIView
 from referral_cods.models import ReferralCode
 from referral_cods.permissions import IsOwner
 from referral_cods.serializers import ReferralCodeSerializer
+from referral_cods.services import ReferralCodeService
 from referral_cods.tasks import send_referral_code_email
 
 
@@ -92,27 +93,13 @@ class SendEmailReferralCodeView(APIView):
     def post(self, request) -> Response:
 
         user = request.user
-        # Проверка хэша на наличии реферального кода
-        referral_code = cache.get(f"referral_code_{user.id}")
-        validity_period = cache.get(f"validity_period_{user.id}")
-        # Если нет в хэше
-        if not referral_code and not validity_period:
 
-            try:
-                # Проверка наличия активного реферального кода в БД
-                referral_code_obj = ReferralCode.objects.get(owner=user, active=True)
-                referral_code = referral_code_obj.code
-                validity_period = referral_code_obj.validity_period
-            except ReferralCode.DoesNotExist:
+        referral_code_data = ReferralCodeService.get_referral_code_data(user)
+        if not referral_code_data:
                 return Response({"message": "Активный реферальный код отсутствует"})
 
-        # Создание словаря с данными реферального кода
-        referral_code_data = {
-            "code": referral_code,
-            "validity_period": validity_period
-        }
         # Получение email пользователя
-        email_user = user.email
+        email_user = ReferralCodeService.get_user_email(user)
         # Отправка реферального кода на email
         send_referral_code_email.delay(referral_code_data, email_user)
         return Response({"message": "Сообщение отправлено на Ваш Email"})
