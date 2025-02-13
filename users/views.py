@@ -28,7 +28,7 @@ class UserCreateView(generics.CreateAPIView):
         responses={
             201: openapi.Response(
                 description="Пользователь успешно создан",
-                schema=UserResponseSerializer()
+                schema=UserResponseSerializer(),
             ),
             400: "Ошибка валидации",
         },
@@ -77,7 +77,9 @@ class AllReferralUsersView(APIView):
             users_list = list(referral_users.values("id", "email"))
             return Response(users_list, status=HTTP_200_OK)
         else:
-            return Response({"message": "Приглашенных пользователей нет"}, status=HTTP_200_OK)
+            return Response(
+                {"message": "Приглашенных пользователей нет"}, status=HTTP_200_OK
+            )
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):
@@ -86,7 +88,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
     @swagger_auto_schema(
         operation_description="Принимает набор учетных данных пользователя и возвращает пару токенов JSON "
-                              "для доступа и обновления, чтобы подтвердить подлинность этих учетных данных.",
+        "для доступа и обновления, чтобы подтвердить подлинность этих учетных данных.",
         operation_summary="Получение access/refresh JWT токена",
         tags=["Пользователь"],
         responses={
@@ -95,13 +97,17 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                 schema=openapi.Schema(
                     type=openapi.TYPE_OBJECT,
                     properties={
-                        'access': openapi.Schema(type=openapi.TYPE_STRING, description='Access токен'),
-                        'refresh': openapi.Schema(type=openapi.TYPE_STRING, description='Refresh токен'),
-                    }
-                )
+                        "access": openapi.Schema(
+                            type=openapi.TYPE_STRING, description="Access токен"
+                        ),
+                        "refresh": openapi.Schema(
+                            type=openapi.TYPE_STRING, description="Refresh токен"
+                        ),
+                    },
+                ),
             ),
-            400: "Неверные учетные данные"
-        }
+            400: "Неверные учетные данные",
+        },
     )
     def post(self, request, *args, **kwargs) -> Response:
         return super().post(request, *args, **kwargs)
@@ -113,7 +119,7 @@ class CustomTokenRefreshView(TokenRefreshView):
 
     @swagger_auto_schema(
         operation_description="Принимает веб-токен JSON типа обновления и возвращает веб-токен JSON "
-                              "типа доступа, если токен обновления действителен.",
+        "типа доступа, если токен обновления действителен.",
         operation_summary="Получение access JWT токена",
         tags=["Пользователь"],
         responses={
@@ -122,12 +128,14 @@ class CustomTokenRefreshView(TokenRefreshView):
                 schema=openapi.Schema(
                     type=openapi.TYPE_OBJECT,
                     properties={
-                        'access': openapi.Schema(type=openapi.TYPE_STRING, description='Новый Access токен'),
-                    }
-                )
+                        "access": openapi.Schema(
+                            type=openapi.TYPE_STRING, description="Новый Access токен"
+                        ),
+                    },
+                ),
             ),
-            400: "Неверный Refresh токен"
-        }
+            400: "Неверный Refresh токен",
+        },
     )
     def post(self, request, *args, **kwargs) -> Response:
         return super().post(request, *args, **kwargs)

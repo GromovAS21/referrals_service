@@ -13,13 +13,11 @@ class ReferralCode(models.Model):
         verbose_name="Реферальный код",
         validators=[
             RegexValidator(r"^\d{6}$", "Код должен состоять из 6 цифр"),
-        ]
+        ],
     )
     validity_period = models.DateField(
         verbose_name="Срок действия реферального кода",
-        validators=[
-            validate_date_in_past
-        ]
+        validators=[validate_date_in_past],
     )
     active = models.BooleanField(
         default=True,
@@ -30,7 +28,7 @@ class ReferralCode(models.Model):
         on_delete=models.CASCADE,
         verbose_name="Владелец реферального кода",
         blank=True,
-        null=True
+        null=True,
     )
 
     def __str__(self):
