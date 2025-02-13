@@ -3,7 +3,7 @@ from datetime import date, datetime
 from django.core.exceptions import ValidationError
 
 
-def validate_date_in_past(value):
+def validate_date_in_past(value: datetime) -> None:
     """Проверка на дату в прошлом"""
 
     date_input = value
