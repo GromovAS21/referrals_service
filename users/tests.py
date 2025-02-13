@@ -24,10 +24,7 @@ class UserTest(TestCase):
             referer_user=self.user,
         )
         self.referral_code = ReferralCode.objects.create(
-            code=123456,
-            validity_period="2026-01-01",
-            active=True,
-            owner=self.user
+            code=123456, validity_period="2026-01-01", active=True, owner=self.user
         )
 
     def test_user(self):
@@ -43,7 +40,7 @@ class UserTest(TestCase):
         data = {
             "email": "test@example.com",
             "password": "Qwerty123",
-            "referral_code": self.referral_code.code
+            "referral_code": self.referral_code.code,
         }
 
         response = self.client.post(url, data)
@@ -53,21 +50,26 @@ class UserTest(TestCase):
         data = {
             "email": "test1@example.com",
             "password": "Qwerty",
-            "referral_code": self.referral_code.code
+            "referral_code": self.referral_code.code,
         }
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.json()["password"][0], 'Убедитесь, что это значение содержит не менее 8 символов.')
+        self.assertEqual(
+            response.json()["password"][0],
+            "Убедитесь, что это значение содержит не менее 8 символов.",
+        )
 
         # Тест на активный реферальный код
         data = {
             "email": "test2@example.com",
             "password": "Qwerty123",
-            "referral_code": "123"
+            "referral_code": "123",
         }
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.json()["referral_code"], 'Такого реферального кода не существует')
+        self.assertEqual(
+            response.json()["referral_code"], "Такого реферального кода не существует"
+        )
 
     def test_all_referral_users(self):
         """Тест на список реферальных пользователей текущего пользователя"""

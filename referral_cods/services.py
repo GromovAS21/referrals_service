@@ -24,11 +24,8 @@ class ReferralCodeService:
             except ReferralCode.DoesNotExist:
                 return None
         # Создание словаря с данными реферального кода
-        return {
-            "code": referral_code,
-            "validity_period": validity_period
-        }
+        return {"code": referral_code, "validity_period": validity_period}
 
     @staticmethod
-    def get_user_email(user:User) -> str:
+    def get_user_email(user: User) -> str:
         return user.email

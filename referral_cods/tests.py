@@ -1,5 +1,4 @@
 from django.test import TestCase
-
 from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APIClient
@@ -14,12 +13,11 @@ class ReferralCodeTest(TestCase):
     def setUp(self):
         self.client = APIClient()
         self.user = User.objects.create(email="test@test.ru")
-        self.user_1 = User.objects.create(email="test1@test.ru", )
+        self.user_1 = User.objects.create(
+            email="test1@test.ru",
+        )
         self.referral_code = ReferralCode.objects.create(
-            code=123456,
-            validity_period="2026-01-01",
-            active=False,
-            owner=self.user
+            code=123456, validity_period="2026-01-01", active=False, owner=self.user
         )
 
     def test_referral_code(self):
@@ -53,12 +51,16 @@ class ReferralCodeTest(TestCase):
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.json()["code"][0], "Код должен состоять из 6 цифр")
-        self.assertEqual(response.json()["validity_period"][0], "Дата не может быть в прошлом")
+        self.assertEqual(
+            response.json()["validity_period"][0], "Дата не может быть в прошлом"
+        )
 
     def test_delete_referral_code(self):
         """Тест на удаление реферального когда"""
 
-        url = reverse("referral_cods:delete_referral_code", args=(self.referral_code.pk,))
+        url = reverse(
+            "referral_cods:delete_referral_code", args=(self.referral_code.pk,)
+        )
 
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
@@ -82,14 +84,15 @@ class ReferralCodeTest(TestCase):
         self.client.force_authenticate(user=self.user)
         response = self.client.post(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.json()["message"], "Активный реферальный код отсутствует")
+        self.assertEqual(
+            response.json()["message"], "Активный реферальный код отсутствует"
+        )
 
         ReferralCode.objects.create(
-            code=123456,
-            validity_period="2026-01-01",
-            active=True,
-            owner=self.user
+            code=123456, validity_period="2026-01-01", active=True, owner=self.user
         )
         response = self.client.post(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.json()["message"], "Сообщение отправлено на Ваш Email")
+        self.assertEqual(
+            response.json()["message"], "Сообщение отправлено на Ваш Email"
+        )
