@@ -10,7 +10,7 @@ API приложения реферального сервиса со следу
  - Проверка на действующий email с помощью API Hunter.io;
  - Хеширование реферального кода с помощью in-memory БД;
  - Получение информации о рефералах по id реферера;
- - UI документация 	(Swagger/ReDoc).
+ - UI документация (Swagger/).
 
 ### Используемые зависимости:
 * python = "^3.12"
@@ -30,18 +30,18 @@ API приложения реферального сервиса со следу
 #### Для запуска приложения необходимо:
 
 1) Склонировать из GitHub данный проект: `git clone https://github.com/GromovAS21/referrals_service.git`;
-2) Перейти в папку с приложением и запустить виртуальное окружение и установить все з зависимости: `poetry shell`;
+2) Перейти в папку с приложением установить все зависимостb `poetry install` и запустить виртуальное окружение `poetry shell`;
 3) Переименовать файл [.env.sample](.env.sample) в [.env](.env.sample) и заполнить все данные в этом файле;
 4) Зайти на сайт [HUNTER API](https://hunter.io/api-keys), получить личный **API Key** и внести его в файл [.env](.env.sample) в переменную `HUNTER_API_KEY`;
 5) Если запускаете локально то необходимо выполнить последовательно следующие команды и проект зауститься по адресу [127.0.0.1:8000]():
-    - `python3 manage.py makemigrations` 
-    - `python3 manage.py migrate`
-    - `python3 manage.py csu`
-    - `python3 manage.py cu`
-    - `python3 manage.py crc`
-    - `redis-server`
-    - `celery -A config worker --beat --scheduler django --loglevel=info `
-    - `python3 manage.py runserver`
+    - `python3 manage.py makemigrations` - создаем миграции
+    - `python3 manage.py migrate` - применяем миграции
+    - `python3 manage.py csu` - Создание суперпользователя для БД
+    - `python3 manage.py cu` - Создание пользователей для БД
+    - `python3 manage.py crc` - Создание реферальных кодов для БД
+    - `redis-server` - запускаем брокер redis
+    - `celery -A config worker --beat --scheduler django --loglevel=info ` - запускаем celery worker и celery-beat
+    - `python3 manage.py runserver` - запускаем семрвер
 6) Если хотите запустить с использованием контейнеров, то запустите Docker 
 7) Запустить программу командами `docker-compose up -d --build `. Приложение запуститься по адресу [0.0.0.0:8000]();
 
@@ -60,6 +60,7 @@ API приложения реферального сервиса со следу
    - Проверка даты, она не должна быть указана в прошедшем
 
    При удалении реферального кода:
+   - Проверка является ли текущий пользователь владельцем реферального кода
 
 ## API документация находится по эндпоинту `swagger/`
 
