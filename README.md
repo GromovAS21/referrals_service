@@ -41,7 +41,7 @@ API приложения реферального сервиса со следу
     - `python3 manage.py crc` - Создание реферальных кодов для БД
     - `redis-server` - запускаем брокер redis
     - `celery -A config worker --beat --scheduler django --loglevel=info ` - запускаем celery worker и celery-beat
-    - `python3 manage.py runserver` - запускаем семрвер
+    - `python3 manage.py runserver` - запускаем сервер
 6) Если хотите запустить с использованием контейнеров, то запустите Docker 
 7) Запустить программу командами `docker-compose up -d --build `. Приложение запуститься по адресу [0.0.0.0:8000]();
 
