@@ -25,7 +25,7 @@ class CreateReferralCodeView(generics.CreateAPIView):
         responses={
             201: openapi.Response(
                 description="Пользователь успешно создан",
-                schema=ReferralCodeSerializer()
+                schema=ReferralCodeSerializer(),
             ),
             400: "Ошибка валидации",
         },
@@ -36,8 +36,17 @@ class CreateReferralCodeView(generics.CreateAPIView):
     def perform_create(self, serializer) -> None:
         referral_code = serializer.save(owner=self.request.user)
         # Добавление реферального кода в хэш
-        cache.set(f"referral_code_{self.request.user.id}", referral_code.code, timeout=24*60*60)
-        cache.set(f"validity_period_{self.request.user.id}", referral_code.validity_period, timeout=24*60*60)
+        cache.set(
+            f"referral_code_{self.request.user.id}",
+            referral_code.code,
+            timeout=24 * 60 * 60,
+        )
+        cache.set(
+            f"validity_period_{self.request.user.id}",
+            referral_code.validity_period,
+            timeout=24 * 60 * 60,
+        )
+
 
 class DeleteReferralCodeView(generics.DestroyAPIView):
 
@@ -74,7 +83,6 @@ class DeleteReferralCodeView(generics.DestroyAPIView):
         super().perform_destroy(instance)
 
 
-
 class SendEmailReferralCodeView(APIView):
 
     @swagger_auto_schema(
@@ -94,7 +102,7 @@ class SendEmailReferralCodeView(APIView):
 
         referral_code_data = ReferralCodeService.get_referral_code_data(user)
         if not referral_code_data:
-                return Response({"message": "Активный реферальный код отсутствует"})
+            return Response({"message": "Активный реферальный код отсутствует"})
 
         # Получение email пользователя
         email_user = ReferralCodeService.get_user_email(user)

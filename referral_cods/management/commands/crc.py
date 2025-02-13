@@ -9,9 +9,24 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         referral_codes = [
-            {"code": "111111", "validity_period": "2025-12-12", "active": True, "owner_id": 1},
-            {"code": "222222", "validity_period": "2025-12-12", "active": True, "owner_id": 2},
-            {"code": "333333", "validity_period": "2025-12-12", "active": False, "owner_id": 3},
+            {
+                "code": "111111",
+                "validity_period": "2025-12-12",
+                "active": True,
+                "owner_id": 1,
+            },
+            {
+                "code": "222222",
+                "validity_period": "2025-12-12",
+                "active": True,
+                "owner_id": 2,
+            },
+            {
+                "code": "333333",
+                "validity_period": "2025-12-12",
+                "active": False,
+                "owner_id": 3,
+            },
         ]
 
         referral_codes_for_create = []
