@@ -68,6 +68,13 @@ class DeleteReferralCodeView(generics.DestroyAPIView):
     def delete(self, request, *args, **kwargs) -> Response:
         return super().delete(request, *args, **kwargs)
 
+    def perform_destroy(self, instance):
+        # Удаление из кеша
+        cache.delete(f"referral_code_{self.request.user.id}")
+        cache.delete(f"validity_period_{self.request.user.id}")
+        super().perform_destroy(instance)
+
+
 
 class SendEmailReferralCodeView(APIView):
 
@@ -89,7 +96,7 @@ class SendEmailReferralCodeView(APIView):
         referral_code = cache.get(f"referral_code_{user.id}")
         validity_period = cache.get(f"validity_period_{user.id}")
         # Если нет в хэше
-        if not referral_code and validity_period:
+        if not referral_code and not validity_period:
 
             try:
                 # Проверка наличия активного реферального кода в БД
