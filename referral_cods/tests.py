@@ -51,16 +51,12 @@ class ReferralCodeTest(TestCase):
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.json()["code"][0], "Код должен состоять из 6 цифр")
-        self.assertEqual(
-            response.json()["validity_period"][0], "Дата не может быть в прошлом"
-        )
+        self.assertEqual(response.json()["validity_period"][0], "Дата не может быть в прошлом")
 
     def test_delete_referral_code(self):
         """Тест на удаление реферального когда"""
 
-        url = reverse(
-            "referral_cods:delete_referral_code", args=(self.referral_code.pk,)
-        )
+        url = reverse("referral_cods:delete_referral_code", args=(self.referral_code.pk,))
 
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
@@ -84,15 +80,9 @@ class ReferralCodeTest(TestCase):
         self.client.force_authenticate(user=self.user)
         response = self.client.post(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(
-            response.json()["message"], "Активный реферальный код отсутствует"
-        )
+        self.assertEqual(response.json()["message"], "Активный реферальный код отсутствует")
 
-        ReferralCode.objects.create(
-            code=123456, validity_period="2026-01-01", active=True, owner=self.user
-        )
+        ReferralCode.objects.create(code=123456, validity_period="2026-01-01", active=True, owner=self.user)
         response = self.client.post(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(
-            response.json()["message"], "Сообщение отправлено на Ваш Email"
-        )
+        self.assertEqual(response.json()["message"], "Сообщение отправлено на Ваш Email")

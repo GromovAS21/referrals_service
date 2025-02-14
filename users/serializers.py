@@ -16,7 +16,6 @@ class UserDetailSerializer(serializers.ModelSerializer):
         fields = ("id", "email", "password", "referral_code")
 
     def create(self, validated_data):
-
         email = validated_data["email"]
         # Проверка на существующий email
         if not verify_email(email):
@@ -26,8 +25,6 @@ class UserDetailSerializer(serializers.ModelSerializer):
 
         # Проверка на существующий реферальный код
         if not ReferralCode.objects.filter(code=referral_code, active=True).exists():
-            raise serializers.ValidationError(
-                {"referral_code": "Такого реферального кода не существует"}
-            )
+            raise serializers.ValidationError({"referral_code": "Такого реферального кода не существует"})
 
         return super().create(validated_data)

@@ -13,7 +13,6 @@ from referral_cods.tasks import send_referral_code_email
 
 
 class CreateReferralCodeView(generics.CreateAPIView):
-
     serializer_class = ReferralCodeSerializer
     queryset = ReferralCode.objects.all()
 
@@ -49,7 +48,6 @@ class CreateReferralCodeView(generics.CreateAPIView):
 
 
 class DeleteReferralCodeView(generics.DestroyAPIView):
-
     queryset = ReferralCode.objects.all()
     permission_classes = (IsOwner,)
 
@@ -84,7 +82,6 @@ class DeleteReferralCodeView(generics.DestroyAPIView):
 
 
 class SendEmailReferralCodeView(APIView):
-
     @swagger_auto_schema(
         operation_description="Отправка активного реферального кода на email текущего пользователя",
         operation_summary="Отправка реферального кода на email",
@@ -97,7 +94,6 @@ class SendEmailReferralCodeView(APIView):
         },
     )
     def post(self, request) -> Response:
-
         user = request.user
 
         referral_code_data = ReferralCodeService.get_referral_code_data(user)
