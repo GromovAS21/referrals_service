@@ -6,6 +6,7 @@ from celery import Celery
 
 from config.settings import CELERY_BROKER_URL, CELERY_RESULT_BACKEND
 
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 app = Celery("config")
 app.config_from_object("django.conf:settings", namespace="CELERY")
