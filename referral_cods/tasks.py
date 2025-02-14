@@ -15,9 +15,7 @@ def check_expiration_date_referral_code() -> None:
 
     date_today = datetime.date.today()
     # Находим реферальные коды которые меньше сегодняшней даты
-    referral_codes = ReferralCode.objects.filter(
-        validity_period__lt=date_today, active=True
-    )
+    referral_codes = ReferralCode.objects.filter(validity_period__lt=date_today, active=True)
 
     for code in referral_codes:
         code.active = False
@@ -35,8 +33,7 @@ def send_referral_code_email(referral_code_data: dict, user_email: str) -> None:
 
     send_mail(
         subject="Реферальный код",
-        message=f"Твой реферальный код: {referral_code}.\n"
-        f"Код активен до: {formatted_date} года.",
+        message=f"Твой реферальный код: {referral_code}.\n" f"Код активен до: {formatted_date} года.",
         from_email=EMAIL_HOST_USER,
         recipient_list=[user_email],
     )

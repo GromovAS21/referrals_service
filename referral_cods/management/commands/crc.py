@@ -1,4 +1,3 @@
-import django
 from django.core.management import BaseCommand
 
 from referral_cods.models import ReferralCode
