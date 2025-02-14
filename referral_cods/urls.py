@@ -1,11 +1,7 @@
 from django.urls import path
 
 from referral_cods.apps import ReferralCodesConfig
-from referral_cods.views import (
-    CreateReferralCodeView,
-    DeleteReferralCodeView,
-    SendEmailReferralCodeView,
-)
+from referral_cods.views import CreateReferralCodeView, DeleteReferralCodeView, SendEmailReferralCodeView
 
 
 app_name = ReferralCodesConfig.name

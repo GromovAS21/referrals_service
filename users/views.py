@@ -5,10 +5,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK
 from rest_framework.views import APIView
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from referral_cods.models import ReferralCode
 from users.models import User
@@ -76,9 +73,7 @@ class AllReferralUsersView(APIView):
             users_list = list(referral_users.values("id", "email"))
             return Response(users_list, status=HTTP_200_OK)
         else:
-            return Response(
-                {"message": "Приглашенных пользователей нет"}, status=HTTP_200_OK
-            )
+            return Response({"message": "Приглашенных пользователей нет"}, status=HTTP_200_OK)
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):
@@ -95,12 +90,8 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                 schema=openapi.Schema(
                     type=openapi.TYPE_OBJECT,
                     properties={
-                        "access": openapi.Schema(
-                            type=openapi.TYPE_STRING, description="Access токен"
-                        ),
-                        "refresh": openapi.Schema(
-                            type=openapi.TYPE_STRING, description="Refresh токен"
-                        ),
+                        "access": openapi.Schema(type=openapi.TYPE_STRING, description="Access токен"),
+                        "refresh": openapi.Schema(type=openapi.TYPE_STRING, description="Refresh токен"),
                     },
                 ),
             ),
@@ -125,9 +116,7 @@ class CustomTokenRefreshView(TokenRefreshView):
                 schema=openapi.Schema(
                     type=openapi.TYPE_OBJECT,
                     properties={
-                        "access": openapi.Schema(
-                            type=openapi.TYPE_STRING, description="Новый Access токен"
-                        ),
+                        "access": openapi.Schema(type=openapi.TYPE_STRING, description="Новый Access токен"),
                     },
                 ),
             ),
