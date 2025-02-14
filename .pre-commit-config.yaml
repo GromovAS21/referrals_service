@@ -8,12 +8,12 @@ repos:
         types: [python]
         pass_filenames: false
 
-#      - id: black
-#        name: black
-#        entry: black --config ./.black .
-#        language: system
-#        types: [python]
-#        pass_filenames: false
+      - id: black
+        name: black
+        entry: black --config ./.black .
+        language: system
+        types: [python]
+        pass_filenames: false
 
       - id: flake8
         name: flake8
