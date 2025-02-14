@@ -16,7 +16,6 @@ class UserDetailSerializer(serializers.ModelSerializer):
         fields = ("id", "email", "password", "referral_code")
 
     def create(self, validated_data):
-
         email = validated_data["email"]
         # Проверка на существующий email
         if not verify_email(email):

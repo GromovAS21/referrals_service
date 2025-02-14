@@ -10,7 +10,6 @@ class Command(BaseCommand):
     """Создание суперпользователя"""
 
     def handle(self, *args, **options):
-
         try:
             user = User.objects.create(
                 email=os.getenv("ADMIN_EMAIL"),
