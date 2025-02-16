@@ -135,7 +135,8 @@ poetry run coverage report
 ---
 
 ## Pre-commit
-В проекте присутсвует функция pre-commit, которая проверяет код на соответствие стандартам PEP8 состоящие из isort, black, flake8; 
+В проекте присутсвует функция pre-commit, которая проверяет код на соответствие стандартам PEP8 состоящие из isort, black, flake8;
+
 **Запуск Pre-commit**
 ```bash
 pre-commit install
